@@ -13,7 +13,7 @@ Press 'Create' button and your directories will be created
 
 ## Rename animation clips
 
-<img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/AnimationClips.gif"
+<img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/AnimationClips.gif">
 
 Automatically renames animation clips to exclude armature name (in case of import from Blender) or renames Mixamo animations using the file name. Names are changed both in the asset itself and in the animation import tab in the inspector.
 
@@ -21,4 +21,4 @@ Automatically renames animation clips to exclude armature name (in case of impor
 
 Note that changing the "Source Take" in the animation import tab might break the changes.
 
-<img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/AnimationClipsTab.png"
+<img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/AnimationClipsTab.png">
