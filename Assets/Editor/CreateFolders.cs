@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.IO;
-namespace GDS
+namespace UsefulUnityScripts
 {
     public class CreateFolders : EditorWindow
     {
@@ -9,28 +9,27 @@ namespace GDS
 
         public Folder[] folders = new Folder[] {
             new Folder("Animations"),
-            new Folder("Audio", new string[] { "Music", "Sounds"}),
-            new Folder("Images", new string[]{ "Sprites", "Textures"}),
+            new Folder("Audio", new Folder[] { new Folder("Music"), new Folder("Sounds")}),
+            new Folder("Images", new Folder[]{ new Folder("Sprites"), new Folder("Textures")}),
             new Folder("Materials"),
             new Folder("Models"),
             new Folder("Prefabs"),
             new Folder("Scenes"),
-            new Folder("Scripts", new string[]{ "Managers", "Utilities"}),
+            new Folder("Scripts", new Folder[]{ new Folder("Managers"), new Folder("Utilities")}),
             new Folder("Shaders")
         };
 
-        [MenuItem("Assets/Create Folders")]
+        [MenuItem("Tools/Create Folders")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow<CreateFolders>("Create Folders");
         }
-
         void OnGUI()
         {
             ScriptableObject scriptableObject = this;
             SerializedObject serializedObject = new SerializedObject(scriptableObject);
 
-            EditorGUILayout.Space(30);
+            GUILayout.Space(30);
             EditorGUILayout.TextField(gameFolderName);
             EditorGUILayout.Space();
 
@@ -49,12 +48,12 @@ namespace GDS
             
             for (int i = 0; i < folders.Length; i++)
             {
-                Directory.CreateDirectory(path + folders[i].folder);
+                Directory.CreateDirectory(path + folders[i].folderName);
                 if (folders[i].subFolders.Length > 0)
                 {
                     for (int k = 0; k < folders[i].subFolders.Length; k++)
                     {
-                        Directory.CreateDirectory(path + folders[i].folder + "/" + folders[i].subFolders[k]);
+                        Directory.CreateDirectory(path + folders[i].folderName + "/" + folders[i].subFolders[k]);
                     }
                 }
             }
@@ -65,19 +64,24 @@ namespace GDS
     [System.Serializable]
     public class Folder
     {
-        public string folder = "";
-        public string[] subFolders = new string[] { };
+        public string folderName = "";
+        public Folder[] subFolders = new Folder[0];
 
         public Folder()
         {}
         public Folder(string f)
         {
-            folder = f;
+            folderName = f;
         }
-        public Folder(string f, string[] subF)
+
+        public Folder(string folderName, Folder[] subFolders)
         {
-            folder = f;
-            subFolders = subF;
+            this.folderName = folderName;
+            this.subFolders = new Folder[subFolders.Length];
+            for (int i = 0; i < subFolders.Length; i++)
+            {
+                this.subFolders[i] = new Folder(subFolders[i].folderName);
+            }
         }
     }
 }
