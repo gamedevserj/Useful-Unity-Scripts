@@ -1,9 +1,9 @@
 # Useful Unity scripts
 
 ### Content
-#### [Create folders](#create-folders)
-#### [Rename animation clips](#rename-animation-clips)
-#### [Scale animation curve](#scale-animation-curve)
+#### [Create folders](#create-folders-1)
+#### [Rename animation clips](#rename-animation-clips-1)
+#### [Scale animation curve](#scale-animation-curve-1)
 
 ## Create folders
 
