@@ -1,5 +1,10 @@
 # Useful Unity scripts
 
+### Content
+#### [Create folders](#create-folders)
+#### [Rename animation clips](#rename-animation-clips)
+#### [Scale animation curve](#scale-animation-curve)
+
 ## Create folders
 
 <img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/CreateFoldersWindow.jpg">
@@ -22,3 +27,9 @@ Automatically renames animation clips to exclude armature name (in case of impor
 Note that changing the "Source Take" in the animation import tab might break the changes.
 
 <img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/AnimationClipsTab.png">
+
+## Scale animation curve
+
+<img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/CurveOriginal.png" height="256"> <img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/CurveScaled.png" height="256">
+
+Allows scaling and normalization of animation curves retaining the tangent values.
