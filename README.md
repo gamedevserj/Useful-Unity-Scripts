@@ -4,6 +4,7 @@
 #### [Create folders](#create-folders-1)
 #### [Rename animation clips](#rename-animation-clips-1)
 #### [Scale animation curve](#scale-animation-curve-1)
+#### [Swiping script](#swiping-script-1)
 
 ## Create folders
 
@@ -33,3 +34,7 @@ Note that changing the "Source Take" in the animation import tab might break the
 <img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/CurveOriginal.png" height="256"> <img src="https://raw.githubusercontent.com/gamedevserj/Images-For-Repo/main/UsefulUnityScripts/CurveScaled.png" height="256">
 
 Allows scaling and normalization of animation curves retaining the tangent values.
+
+## Swiping script
+
+Contains basic swiping functionality that detects swipes in 8 directions. Split into separate versions that work in the Editor and on mobile devices.
