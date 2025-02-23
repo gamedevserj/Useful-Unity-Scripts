@@ -6,8 +6,6 @@ namespace UsefulUnityScripts
     public class SwipeControllerPC : SwipeControllerBase
     {
 
-        #region Unity methods
-
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -73,9 +71,6 @@ namespace UsefulUnityScripts
                 CheckSwipe();
             }
         }
-
-        #endregion
-
     }
 }
 #endif

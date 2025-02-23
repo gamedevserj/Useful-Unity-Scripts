@@ -1,14 +1,16 @@
 ﻿namespace UsefulUnityScripts
 {
+    [System.Flags]
     public enum SwipeDirection
     {
-        Up = 0,
-        UpRight = 1,
+        None = 0,
+        Up = 1,
         Right = 2,
-        DownRight = 3,
         Down = 4,
-        DownLeft = 5,
-        Left = 6,
-        UpLeft = 7
+        Left = 8,
+        UpRight = Up | Right,
+        DownRight = Down | Right,
+        DownLeft = Down | Left,
+        UpLeft = Up | Left,
     } 
 }

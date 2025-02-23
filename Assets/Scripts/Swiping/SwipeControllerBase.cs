@@ -5,36 +5,17 @@ namespace UsefulUnityScripts
 	public abstract class SwipeControllerBase : MonoBehaviour
 	{
 
-		#region Serialized fields
-
-		[SerializeField] protected float minSwipeLength = 10f;
-		[SerializeField] protected float swipeTime = 0.5f;
-		[SerializeField] protected float diagonalSwipeThreshold = 0.4f;
-
-        #endregion
-
-
-        #region Protected fields
-
-        protected bool swipeInProgress;
-
-        protected Vector2 swipeStartPosition;
-        protected Vector2 swipeEndPosition;
-
-        protected float swipeEndTime;
-
-        #endregion
-
-
-        #region Events
-
         public delegate void SwipeDetected(SwipeDirection swipeDirection);
         public static event SwipeDetected OnSwipeDetected;
 
-        #endregion
+        [SerializeField] protected float minSwipeLength = 10f;
+		[SerializeField] private float swipeTime = 0.5f;
+        [SerializeField] private float diagonalSwipeAngle = 20;
 
-
-        #region Protected methods
+        protected bool swipeInProgress;
+        protected Vector2 swipeStartPosition;
+        protected Vector2 swipeEndPosition;
+        protected float swipeEndTime;
 
         protected void CheckSwipe()
         {
@@ -55,19 +36,9 @@ namespace UsefulUnityScripts
             swipeInProgress = false;
         }
 
-        #endregion
-
-
-        #region Private methods
-
         private bool CheckSwipeLength()
         {
-            float verticalSwipeLength = Mathf.Abs(swipeStartPosition.y - swipeEndPosition.y);
-            float horizontalSwipeLength = Mathf.Abs(swipeStartPosition.x - swipeEndPosition.x);
-            if (verticalSwipeLength > minSwipeLength || horizontalSwipeLength > minSwipeLength)
-                return true;
-            else
-                return false;
+            return (swipeStartPosition - swipeEndPosition).magnitude > minSwipeLength;
         }
 
         private void CalculateSwipeDirection(Vector2 start, Vector2 end)
@@ -76,118 +47,31 @@ namespace UsefulUnityScripts
             float horizontalValue = Mathf.Abs(direction.x);
             float verticalValue = Mathf.Abs(direction.y);
 
-            if (horizontalValue > verticalValue) // horizontal swipe
+            var horizontalSign = Mathf.Sign(direction.x);
+            var verticalSign = Mathf.Sign(direction.y);
+
+            SwipeDirection swipeDirection = SwipeDirection.None;
+            if (horizontalValue >= verticalValue)
             {
-                if (direction.x > 0) // swipe right
-                {
-                    if (direction.x - Mathf.Abs(direction.y) < diagonalSwipeThreshold) // checking for diagonal
-                    {
-                        if (direction.y > 0)
-                        {
-                            DetectedSwipe(SwipeDirection.UpRight);
-                        }
-                        else
-                        {
-                            DetectedSwipe(SwipeDirection.DownRight);
-                        }
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.Right);
-                    }
-                }
-                else // swipe left
-                {
-                    if (Mathf.Abs(direction.x) - Mathf.Abs(direction.y) < diagonalSwipeThreshold) // checking for diagonal
-                    {
-                        if (direction.y > 0)
-                        {
-                            DetectedSwipe(SwipeDirection.UpLeft);
-                        }
-                        else
-                        {
-                            DetectedSwipe(SwipeDirection.DownLeft);
-                        }
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.Left);
-                    }
-                }
+                swipeDirection |= horizontalSign > 0 ? SwipeDirection.Right : SwipeDirection.Left;
+                // multiplying by sign to match horizontal direction and have angle be between 0 and 90
+                if (Vector2.Angle(Vector2.right * horizontalSign, direction) > diagonalSwipeAngle)
+                    swipeDirection |= verticalSign > 0 ? SwipeDirection.Up : SwipeDirection.Down;
             }
-            else if (horizontalValue < verticalValue) // vertical swipe
+            else
             {
-                if (direction.y > 0) // swipe up
-                {
-                    if (direction.y - Mathf.Abs(direction.x) < diagonalSwipeThreshold) // checking for diagonal
-                    {
-                        if (direction.x > 0)
-                        {
-                            DetectedSwipe(SwipeDirection.UpRight);
-                        }
-                        else
-                        {
-                            DetectedSwipe(SwipeDirection.UpLeft);
-                        }
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.Up);
-                    }
-                }
-                else // swipe down
-                {
-                    if (Mathf.Abs(direction.y) - Mathf.Abs(direction.x) < diagonalSwipeThreshold) // checking for diagonal
-                    {
-                        if (direction.x > 0)
-                        {
-                            DetectedSwipe(SwipeDirection.DownRight);
-                        }
-                        else
-                        {
-                            DetectedSwipe(SwipeDirection.DownLeft);
-                        }
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.Down);
-                    }
-                }
-            }
-            else // in case both x and y directions are equal
-            {
-                if (direction.y > 0) // diagonal up
-                {
-                    if (direction.x > 0)
-                    {
-                        DetectedSwipe(SwipeDirection.UpRight);
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.UpLeft);
-                    }
-                }
-                else // diagonal down
-                {
-                    if (direction.x > 0)
-                    {
-                        DetectedSwipe(SwipeDirection.DownRight);
-                    }
-                    else
-                    {
-                        DetectedSwipe(SwipeDirection.DownLeft);
-                    }
-                }
+                swipeDirection |= verticalSign > 0 ? SwipeDirection.Up : SwipeDirection.Down;
+                if (Vector2.Angle(Vector2.up * verticalSign, direction) > diagonalSwipeAngle)
+                    swipeDirection |= horizontalSign > 0 ? SwipeDirection.Right : SwipeDirection.Left;
             }
 
-
+            DetectedSwipe(swipeDirection);
         }
+
         private void DetectedSwipe(SwipeDirection swipeDirection)
         {
             OnSwipeDetected?.Invoke(swipeDirection);
         }
-
-        #endregion
 
     }
 }

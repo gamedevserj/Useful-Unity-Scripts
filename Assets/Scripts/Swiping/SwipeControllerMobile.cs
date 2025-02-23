@@ -6,8 +6,6 @@ namespace UsefulUnityScripts
     public class SwipeControllerMobile : SwipeControllerBase
     {
 
-        #region Unity methods
-
         private void Update()
         {
             foreach (Touch touch in Input.touches)
@@ -27,9 +25,6 @@ namespace UsefulUnityScripts
                 }
             }
         }
-
-        #endregion
-
     }
 }
 #endif
